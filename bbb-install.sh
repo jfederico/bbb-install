@@ -664,7 +664,8 @@ HERE
       systemctl restart nginx
     fi
 
-    if ! letsencrypt --email $EMAIL --agree-tos --rsa-key-size 4096 --webroot -w /var/www/bigbluebutton-default/ -d $HOST --non-interactive certonly; then
+    #if ! letsencrypt --email $EMAIL --agree-tos --rsa-key-size 4096 --webroot -w /var/www/bigbluebutton-default/ -d $HOST --non-interactive certonly; then
+    if ! certbot --email $EMAIL --agree-tos --rsa-key-size 4096 -w /var/www/bigbluebutton-default/ -d $HOST --manual --preferred-challenges dns certonly; then
       cp /tmp/bigbluebutton.bak /etc/nginx/sites-available/bigbluebutton
       systemctl restart nginx
       err "Let's Encrypt SSL request for $HOST did not succeed - exiting"
